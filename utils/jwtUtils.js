@@ -15,8 +15,12 @@ const createTokenForUser = (user) => {
 };
 
 const validateToken = (token) => {
-  const payload = JWT.verify(token, secret);
-  return payload;
+  try {
+    const payload = JWT.verify(token, secret);
+    return payload;
+  } catch (error) {
+    throw new Error("Invalid JWT Token");
+  }
 };
 
 module.exports = {
