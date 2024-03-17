@@ -5,6 +5,7 @@ const logger = require("morgan");
 
 const indexRouter = require("./routes/index");
 const organisationRouter = require("./routes/organisation");
+const dashbaordRouter = require("./routes/dashboard");
 const mongoose = require("mongoose");
 
 // Connecting Mongodb Atlas with our application
@@ -25,5 +26,6 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/user", organisationRouter);
+app.use("/dashboard", dashbaordRouter);
 
 module.exports = app;
