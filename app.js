@@ -4,10 +4,10 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 
 const indexRouter = require("./routes/index");
-const usersRouter = require("./routes/users");
+const organisationRouter = require("./routes/organisation");
 const mongoose = require("mongoose");
-const { error } = require("console");
 
+// Connecting Mongodb Atlas with our application
 mongoose
   .connect("mongodb+srv://ayush:P0EsdU3VmtTfNXYl@cluster0.fdlvbka.mongodb.net/")
   .then((response) => {
@@ -24,6 +24,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
+app.use("/user", organisationRouter);
 
 module.exports = app;
