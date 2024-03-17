@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const { createHmac } = require("node:crypto");
 
 const organisationschema = new Schema(
   {
@@ -8,7 +9,7 @@ const organisationschema = new Schema(
     },
     description: {
       type: String,
-      reuire: true,
+      require: true,
     },
     email: {
       type: String,
@@ -39,6 +40,19 @@ const organisationschema = new Schema(
   },
   { timestamps: true }
 );
+
+// Hashing the password before saving it into DB
+organisationschema.pre("save", function (next) {
+  const org = this;
+
+  const hashedPassword = createHmac("sha256", "this is the salt for hashing")
+    .update(org.password)
+    .digest("hex");
+
+  this.password = hashedPassword;
+
+  next();
+});
 
 const Organisation = model("organisation", organisationschema);
 
