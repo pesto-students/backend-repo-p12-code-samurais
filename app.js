@@ -8,10 +8,11 @@ const indexRouter = require("./routes/index");
 const organisationRouter = require("./routes/organisation");
 const dashbaordRouter = require("./routes/dashboard");
 const mongoose = require("mongoose");
+require("dotenv").config();
 
 // Connecting Mongodb Atlas with our application
 mongoose
-  .connect("mongodb+srv://ayush:P0EsdU3VmtTfNXYl@cluster0.fdlvbka.mongodb.net/")
+  .connect(process.env.MONGODB)
   .then((response) => {
     console.log("Database is connected");
   })
