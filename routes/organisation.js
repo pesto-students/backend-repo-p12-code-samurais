@@ -32,7 +32,7 @@ router.post("/signup", async function (req, res, next) {
         .json({ success: true, message: "User created successfully" });
     })
     .catch((error) => {
-      res.send(error);
+      res.status(400).json(error);
     });
 });
 
@@ -52,9 +52,20 @@ router.post("/login", function (req, res) {
 
       if (hashedPassword === user.password) {
         const jwtToken = createTokenForUser(user);
-        res
-          .status(200)
-          .json({ success: true, message: "Password Match", token: jwtToken });
+        res.status(200).json({
+          success: true,
+          message: "Password Match",
+          token: jwtToken,
+          user: {
+            name: user.name,
+            description: user.description,
+            email: user.email,
+            profileImageURL: user.profileImageURL,
+            role: user.role,
+            location: user.location,
+            contact: user.contact,
+          },
+        });
       } else {
         res.status(400).json({ success: false, message: "Password Incorrect" });
       }
