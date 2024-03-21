@@ -27,9 +27,19 @@ router.post("/signup", async function (req, res, next) {
     contact,
   })
     .then((response) => {
-      res
-        .status(200)
-        .json({ success: true, message: "User created successfully" });
+      res.status(200).json({
+        success: true,
+        message: "User created successfully",
+        user: {
+          name,
+          description,
+          email,
+          profileImageURL,
+          role,
+          location,
+          contact,
+        },
+      });
     })
     .catch((error) => {
       res.status(400).json(error);
