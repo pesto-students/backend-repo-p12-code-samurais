@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 const { createHmac } = require("node:crypto");
-const { stdin } = require("node:process");
+const { requirementSchema } = require("./requirements");
 
 const organisationschema = new Schema(
   {
@@ -42,6 +42,7 @@ const organisationschema = new Schema(
       type: String,
       require: true,
     },
+    requirements: [requirementSchema],
   },
   { timestamps: true }
 );
@@ -59,6 +60,6 @@ organisationschema.pre("save", function (next) {
   next();
 });
 
-const Organisation = model("organisation", organisationschema);
+const Organisation = model("Organisation", organisationschema);
 
 module.exports = Organisation;
