@@ -3,7 +3,7 @@ const { Schema, model } = require("mongoose");
 const requirementSchema = new Schema({
   product: {
     type: String,
-    requir: true,
+    require: true,
   },
   product_desc: {
     type: String,
@@ -15,6 +15,10 @@ const requirementSchema = new Schema({
   },
   budget_max: {
     type: Number,
+    require: true,
+  },
+  isAccepted: {
+    type: Boolean,
     require: true,
   },
 });

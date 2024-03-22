@@ -13,7 +13,8 @@ router.get("/:email", async (req, res) => {
 });
 
 router.post("/post", async (req, res) => {
-  const { email, product, product_desc, budget_min, budget_max } = req.body;
+  const { email, product, product_desc, budget_min, budget_max, isAccepted } =
+    req.body;
 
   let requirement = await Organisation.findOneAndUpdate(
     { email },
@@ -24,6 +25,7 @@ router.post("/post", async (req, res) => {
           product_desc,
           budget_min,
           budget_max,
+          isAccepted,
         },
       },
     },
@@ -31,5 +33,7 @@ router.post("/post", async (req, res) => {
   );
   res.send(requirement);
 });
+
+router.post("/accept", async (req, res) => {});
 
 module.exports = router;
