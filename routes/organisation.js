@@ -87,4 +87,28 @@ router.post("/login", function (req, res) {
   });
 });
 
+// Getting User based on particular email
+router.get("/:email/:role", (req, res) => {
+  const { email, role } = req.params;
+  Organisation.findOne({ email, role }).then((user) => {
+    if (user) {
+      res.status(200).json({
+        success: "true",
+        message: "user found",
+        user: {
+          name: user.name,
+          description: user.description,
+          email: user.email,
+          profileImageURL: user.profileImageURL,
+          role: user.role,
+          location: user.location,
+          contact: user.contact,
+        },
+      });
+    } else {
+      res.status(400).json({ success: "false", user: "user not found" });
+    }
+  });
+});
+
 module.exports = router;
