@@ -3,8 +3,13 @@ const Organisation = require("../models/organisation");
 var router = express.Router();
 
 // To the list of requirements
-router.get("/", (req, res) => {
-  res.send("We are in the requirement route");
+router.get("/", async (req, res) => {
+  const { email } = req.body;
+  await Organisation.findOne({ email })
+    .then((response) => res.status(200).json({ success: true, data: response }))
+    .catch((error) =>
+      res.status(400).json({ success: false, message: "Error happened", error })
+    );
 });
 
 router.post("/post", async (req, res) => {
