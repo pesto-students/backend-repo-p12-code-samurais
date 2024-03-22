@@ -7,8 +7,8 @@ var cors = require("cors");
 const indexRouter = require("./routes/index");
 const organisationRouter = require("./routes/organisation");
 const dashbaordRouter = require("./routes/dashboard");
-// const chatRouter = require("./routes/chat");
-const chatRouter = require('./routes/chat')
+const requirementRouter = require("./routes/requirements");
+const chatRouter = require("./routes/chat");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
@@ -33,5 +33,6 @@ app.use("/", indexRouter);
 app.use("/user", organisationRouter);
 app.use("/dashboard", dashbaordRouter);
 app.use("/authenticate", chatRouter);
+app.use("/requirements", requirementRouter);
 
 module.exports = app;
