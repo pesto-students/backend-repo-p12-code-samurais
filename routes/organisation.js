@@ -15,6 +15,7 @@ router.post("/signup", async function (req, res, next) {
     role,
     location,
     contact,
+    sector,
   } = req.body;
   await Organisation.create({
     name,
@@ -25,6 +26,7 @@ router.post("/signup", async function (req, res, next) {
     role,
     location,
     contact,
+    sector,
   })
     .then((response) => {
       res.status(200).json({
@@ -38,6 +40,7 @@ router.post("/signup", async function (req, res, next) {
           role,
           location,
           contact,
+          sector,
         },
       });
     })
@@ -70,10 +73,10 @@ router.post("/login", function (req, res) {
             name: user.name,
             description: user.description,
             email: user.email,
-            profileImageURL: user.profileImageURL,
             role: user.role,
             location: user.location,
             contact: user.contact,
+            sector: user.sector,
           },
         });
       } else {
@@ -103,6 +106,7 @@ router.get("/:email/:role", (req, res) => {
           role: user.role,
           location: user.location,
           contact: user.contact,
+          sector: user.sector,
         },
       });
     } else {

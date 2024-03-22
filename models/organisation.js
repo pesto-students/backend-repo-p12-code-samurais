@@ -1,5 +1,6 @@
 const { Schema, model } = require("mongoose");
 const { createHmac } = require("node:crypto");
+const { stdin } = require("node:process");
 
 const organisationschema = new Schema(
   {
@@ -35,6 +36,10 @@ const organisationschema = new Schema(
     },
     contact: {
       type: Number,
+      require: true,
+    },
+    sector: {
+      type: String,
       require: true,
     },
   },
