@@ -6,20 +6,20 @@ const organisationschema = new Schema(
   {
     name: {
       type: String,
-      require: true,
+      required: true,
     },
     description: {
       type: String,
-      require: true,
+      required: true,
     },
     email: {
       type: String,
-      require: true,
+      required: true,
       unique: true,
     },
     password: {
       type: String,
-      require: true,
+      required: true,
     },
     profileImageURL: {
       type: String,
@@ -27,20 +27,20 @@ const organisationschema = new Schema(
     },
     role: {
       type: String,
-      require: true,
+      required: true,
       enum: ["Vendor", "Client"],
     },
     location: {
       type: String,
-      require: true,
+      required: true,
     },
     contact: {
       type: Number,
-      require: true,
+      required: true,
     },
     sector: {
       type: String,
-      require: true,
+      required: true,
     },
     requirements: [requirementSchema],
   },
