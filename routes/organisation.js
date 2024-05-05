@@ -6,16 +6,17 @@ const { createTokenForUser } = require("../utils/jwtUtils");
 
 // Sign Up route for the user
 router.post("/signup", async function (req, res, next) {
+  // capturing data from the endpoint body
   const {
     name,
     description,
+    sector,
     email,
     password,
     profileImageURL,
     role,
     location,
     contact,
-    sector,
   } = req.body;
   await Organisation.create({
     name,
