@@ -1,6 +1,5 @@
 const { Schema, model } = require("mongoose");
 const { createHmac } = require("node:crypto");
-const { requirementSchema } = require("./requirements");
 
 const organisationschema = new Schema(
   {
@@ -42,7 +41,6 @@ const organisationschema = new Schema(
       type: String,
       required: true,
     },
-    requirements: [requirementSchema],
   },
   { timestamps: true }
 );

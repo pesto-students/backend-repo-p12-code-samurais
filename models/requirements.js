@@ -1,37 +1,34 @@
 const { Schema, model } = require("mongoose");
 
-const requirementSchema = new Schema([
-  {
-    email: {
-      type: String,
-      require: true,
-    },
-    product: {
-      type: String,
-      require: true,
-    },
-    product_desc: {
-      type: String,
-      require: true,
-    },
-    budget_min: {
-      type: Number,
-      require: true,
-    },
-    budget_max: {
-      type: Number,
-      require: true,
-    },
-    isAccepted: {
-      type: Boolean,
-      require: true,
-    },
-    sector: {
-      type: String,
-      require: true,
-    },
+const requirementSchema = new Schema({
+  product: {
+    type: String,
+    required: true,
   },
-]);
+  product_desc: {
+    type: String,
+    required: true,
+  },
+  budget_min: {
+    type: Number,
+    required: true,
+  },
+  budget_max: {
+    type: Number,
+    required: true,
+  },
+  sector: {
+    type: String,
+    required: true,
+    enum: ["IT"],
+  },
+  organisation_id: { type: Schema.Types.ObjectId, ref: "Organisation" },
+  organisation_email: {
+    type: String,
+    required: true,
+  },
+  pitches: [{ type: { isPitchAccepted: Boolean } }],
+});
 
 const Requirements = model("requirement", requirementSchema);
 
