@@ -17,10 +17,10 @@ const requirementSchema = new Schema({
     type: Number,
     required: true,
   },
-  sector: {
+  req_sector: {
     type: String,
     required: true,
-    enum: ["IT"],
+    enum: ["IT", "Automobile"],
   },
   organisation_id: { type: Schema.Types.ObjectId, ref: "Organisation" },
   organisation_email: {

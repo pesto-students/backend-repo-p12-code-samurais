@@ -3,15 +3,19 @@ const Organisation = require("../models/organisation");
 const { Requirements } = require("../models/requirements");
 var router = express.Router();
 
-// To the list of requirements
-router.get("/:email", async (req, res) => {
-  const email = req.params.email;
-  await Requirements.find({ email }).then((response) => res.send(response));
-  //   await Organisation.findOne({ email })
-  //     .then((response) => res.status(200).json({ success: true, response }))
-  //     .catch((error) =>
-  //       res.status(400).json({ success: false, message: "Error happened", error })
-  //     );
+// To get the list of requirements based on email
+router.get("/email", async (req, res) => {
+  const { email } = req.body;
+  await Requirements.find({ organisation_email: email }).then((response) =>
+    res.status(200).json({ success: true, data: response })
+  );
+});
+
+router.get("/sector", async (req, res) => {
+  const { req_sector } = req.body;
+  await Requirements.find({ req_sector }).then((response) => {
+    res.status(200).json({ success: true, data: response });
+  });
 });
 
 router.post("/post", async (req, res) => {
@@ -22,7 +26,7 @@ router.post("/post", async (req, res) => {
     budget_min,
     budget_max,
     isAccepted,
-    sector,
+    req_sector,
     organisation_id,
     pitches,
   } = req.body;
@@ -34,7 +38,7 @@ router.post("/post", async (req, res) => {
     budget_min,
     budget_max,
     isAccepted,
-    sector,
+    req_sector,
     organisation_id,
     pitches,
   })
