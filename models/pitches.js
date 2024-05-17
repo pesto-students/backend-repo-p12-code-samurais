@@ -25,6 +25,7 @@ const pitchesSchema = new Schema({
     type: String,
     required: true,
   },
+  requirement_id: { type: Schema.Types.ObjectId, ref: "Requirement" },
 });
 
 const Pitches = model("pitches", pitchesSchema);
