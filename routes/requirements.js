@@ -11,6 +11,7 @@ router.get("/email", async (req, res) => {
   );
 });
 
+// To get the list of requirements based on sector
 router.get("/sector", async (req, res) => {
   const { req_sector } = req.body;
   await Requirements.find({ req_sector }).then((response) => {
@@ -18,6 +19,7 @@ router.get("/sector", async (req, res) => {
   });
 });
 
+// To post a requirement
 router.post("/post", async (req, res) => {
   const {
     organisation_email,
@@ -54,6 +56,21 @@ router.post("/post", async (req, res) => {
     });
 });
 
-// router.post("/accept", async (req, res) => {});
+// To edit/delete a requirement
+router.put("/edit", async (req, res) => {
+  const { _id, product, product_desc, budget_min, budget_max } = req.body;
+  await Requirements.findByIdAndUpdate(
+    _id,
+    {
+      product,
+      product_desc,
+      budget_max,
+      budget_min,
+    },
+    { new: true }
+  ).then((response) => {
+    res.status(200).json({ success: true, message: "Requirement Updated" });
+  });
+});
 
 module.exports = router;
