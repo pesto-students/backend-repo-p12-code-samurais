@@ -44,6 +44,23 @@ router.post("/post", async (req, res) => {
     });
 });
 
+// Route to udpate and delete the virtual pitch
+router.put("/edit", async (req, res) => {
+  const { _id, place, budget_min, budget_max, product_details } = req.body;
+  await Pitches.findByIdAndUpdate(
+    _id,
+    {
+      place,
+      budget_min,
+      budget_max,
+      product_details,
+    },
+    { new: true }
+  ).then((response) => {
+    res.send(response);
+  });
+});
+
 // Route to get the requirement by id
 // router.get("/find_req", async (req, res) => {
 //   await Requirements.findById({
