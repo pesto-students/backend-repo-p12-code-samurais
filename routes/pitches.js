@@ -1,7 +1,6 @@
 var express = require("express");
 var router = express.Router();
 const { Pitches } = require("../models/pitches");
-const { Requirements } = require("../models/requirements");
 
 // route to get the virtul pitch based on email
 router.get("/email", async (req, res) => {
@@ -21,6 +20,7 @@ router.post("/post", async (req, res) => {
     budget_max,
     product_details,
     requirement_id,
+    pitch_title,
   } = req.body;
 
   await Pitches.create({
@@ -31,6 +31,7 @@ router.post("/post", async (req, res) => {
     budget_max,
     product_details,
     requirement_id,
+    pitch_title,
   })
     .then((response) => {
       res.status(200).json({

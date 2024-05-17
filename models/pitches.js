@@ -10,6 +10,10 @@ const pitchesSchema = new Schema(
       type: String,
       required: true,
     },
+    pitch_title: {
+      type: String,
+      required: true,
+    },
     place: {
       type: String,
       required: true,
