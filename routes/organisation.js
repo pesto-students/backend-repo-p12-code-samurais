@@ -116,4 +116,33 @@ router.get("/:email/:role", (req, res) => {
   });
 });
 
+//Edit Organisation profile
+router.put("/edit", async (req, res) => {
+  const {
+    name,
+    description,
+    sector,
+    password,
+    location,
+    contact,
+    email,
+    profileImageURL,
+  } = req.body;
+  await Organisation.findOneAndUpdate(
+    { email },
+    {
+      name,
+      description,
+      sector,
+      password,
+      profileImageURL,
+      location,
+      contact,
+    },
+    { new: true }
+  ).then((response) => {
+    res.send(response);
+  });
+});
+
 module.exports = router;
