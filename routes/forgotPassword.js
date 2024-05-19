@@ -3,6 +3,7 @@ var router = express.Router();
 const nodemailer = require("nodemailer");
 const Organisation = require("../models/organisation");
 const { generateRandomOTP } = require("../utils/generateRandomOTP");
+const { redisClient } = require("../utils/redis_connection");
 
 const transporter = nodemailer.createTransport({
   host: "smtp.zoho.in",
@@ -17,6 +18,7 @@ const transporter = nodemailer.createTransport({
 // async..await is not allowed in global scope, must use a wrapper
 async function main(email) {
   const randomNumber = generateRandomOTP();
+  redisClient.set(email, randomNumber);
   const htmlContent = `
   <div style="text-align: center;">
     <div style="max-width: 500px; margin: 0 auto; background-color: #ffffff; padding: 20px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
