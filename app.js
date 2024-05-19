@@ -10,6 +10,7 @@ const dashbaordRouter = require("./routes/dashboard");
 const requirementRouter = require("./routes/requirements");
 const pitchRouter = require("./routes/pitches");
 const chatRouter = require("./routes/chat");
+const forgotPasswordRouter = require("./routes/forgotPassword");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
@@ -36,5 +37,6 @@ app.use("/dashboard", dashbaordRouter);
 app.use("/authenticate", chatRouter);
 app.use("/requirements", requirementRouter);
 app.use("/virtual_pitch", pitchRouter);
+app.use("/forgotPassword", forgotPasswordRouter);
 
 module.exports = app;
