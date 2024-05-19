@@ -64,4 +64,17 @@ router.get("/", async (req, res) => {
   });
 });
 
+router.get("/verifyotp", async (req, res) => {
+  const { email } = req.query;
+  const { otpFromUser } = req.body;
+  const redisOTP = await redisClient.get(email);
+  if (redisOTP === otpFromUser) {
+    res.status(200).json({ success: true, message: "OTP Verified" });
+  } else {
+    res
+      .status(400)
+      .json({ success: false, message: "OTP verification failed" });
+  }
+});
+
 module.exports = router;
