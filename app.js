@@ -3,7 +3,7 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 var cors = require("cors");
-
+const { RedisUtil } = require("./utils/redis_connection");
 const indexRouter = require("./routes/index");
 const organisationRouter = require("./routes/organisation");
 const dashbaordRouter = require("./routes/dashboard");
@@ -18,7 +18,7 @@ require("dotenv").config();
 mongoose
   .connect(process.env.MONGODB)
   .then((response) => {
-    console.log("Database is connected");
+    console.log("📚 Database is connected");
   })
   .catch((error) => console.log(error));
 
@@ -38,5 +38,8 @@ app.use("/authenticate", chatRouter);
 app.use("/requirements", requirementRouter);
 app.use("/virtual_pitch", pitchRouter);
 app.use("/forgotPassword", forgotPasswordRouter);
+
+// Redis Initianalised
+RedisUtil();
 
 module.exports = app;
