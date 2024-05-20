@@ -18,7 +18,10 @@ const transporter = nodemailer.createTransport({
 // async..await is not allowed in global scope, must use a wrapper
 async function main(email) {
   const randomNumber = generateRandomOTP();
-  redisClient.set(email, JSON.stringify({ randomNumber, isVerified: false }));
+  redisClient.set(
+    email,
+    JSON.stringify({ otp: randomNumber, isVerified: false })
+  );
   const htmlContent = `
   <div style="text-align: center;">
     <div style="max-width: 500px; margin: 0 auto; background-color: #ffffff; padding: 20px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
@@ -66,10 +69,22 @@ router.get("/", async (req, res) => {
 
 router.get("/verifyotp", async (req, res) => {
   const { email } = req.query;
-  const { otpFromUser } = req.body;
-  const redisOTP = await redisClient.get(email);
-  if (redisOTP === otpFromUser) {
-    res.status(200).json({ success: true, message: "OTP Verified" });
+  const { otp } = req.body;
+  let redisUserData = await redisClient.get(email);
+  redisUserData = JSON.parse(redisUserData);
+
+  if (redisUserData.otp == otp) {
+    redisClient
+      .set(email, JSON.stringify({ otp: 0, isVerified: true }))
+      .then((response) => {
+        if (response == "OK") {
+          res.status(200).json({ success: true, message: "OTP Verified" });
+        } else {
+          res
+            .status(200)
+            .json({ success: false, message: "Something went wrong!!!" });
+        }
+      });
   } else {
     res
       .status(400)
