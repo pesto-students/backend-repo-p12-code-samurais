@@ -41,6 +41,12 @@ const organisationschema = new Schema(
       type: String,
       required: true,
     },
+    messages: [
+      {
+        queue_key: String,
+        receiver_email: String,
+      },
+    ],
   },
   { timestamps: true }
 );
