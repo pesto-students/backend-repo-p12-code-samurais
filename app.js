@@ -10,7 +10,6 @@ const dashbaordRouter = require("./routes/dashboard");
 const requirementRouter = require("./routes/requirements");
 const pitchRouter = require("./routes/pitches");
 const chatRouter = require("./routes/chat");
-const receiveMessage = require("./chatServer/subscriber");
 const forgotPasswordRouter = require("./routes/forgotPassword");
 const mongoose = require("mongoose");
 require("dotenv").config();
@@ -42,8 +41,5 @@ app.use("/chat", chatRouter);
 
 // Redis Initianalised
 RedisUtil();
-
-// To liste incoming messages
-receiveMessage();
 
 module.exports = app;
