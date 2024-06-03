@@ -1,6 +1,9 @@
 const amqp = require("amqplib");
+const subscriber = require("./subscriber");
+const sortStrings = require("../utils/compareTwoStringsAplhabetically");
 
-async function publishMessage() {
+async function publishMessage(sender_email, receiver_email, message_sent) {
+  subscriber(sender_email, receiver_email);
   try {
     // Connect to RabbitMQ server
     const connection = await amqp.connect("amqp://localhost");
@@ -9,11 +12,11 @@ async function publishMessage() {
     const channel = await connection.createChannel();
 
     // Declare a queue
-    const queueName = "hello";
-    await channel.assertQueue(queueName, { durable: false });
+    const queueName = sortStrings(sender_email, receiver_email);
+    await channel.assertQueue(queueName, { durable: true });
 
     // Message to be sent
-    const message = { user: "Ayush", message: "Hello RabbitMQ!" };
+    const message = { sender: sender_email, message: message_sent };
 
     // Publish the message to the queue
     channel.sendToQueue(queueName, Buffer.from(JSON.stringify(message)));
@@ -23,7 +26,7 @@ async function publishMessage() {
     // Close the connection and channel
     setTimeout(function () {
       connection.close();
-      process.exit(0);
+      //   process.exit(0);
     }, 500);
   } catch (error) {
     console.error("Error occurred:", error);
@@ -32,5 +35,3 @@ async function publishMessage() {
 }
 
 module.exports = publishMessage;
-
-// publishMessage();

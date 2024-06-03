@@ -1,6 +1,7 @@
 const amqp = require("amqplib");
+const sortStrings = require("../utils/compareTwoStringsAplhabetically");
 
-async function receiveMessage() {
+async function receiveMessage(sender_email, receiver_email) {
   try {
     // Connect to RabbitMQ server
     const connection = await amqp.connect("amqp://localhost");
@@ -9,8 +10,8 @@ async function receiveMessage() {
     const channel = await connection.createChannel();
 
     // Declare a queue
-    const queueName = "hello";
-    await channel.assertQueue(queueName, { durable: false });
+    const queueName = sortStrings(sender_email, receiver_email);
+    await channel.assertQueue(queueName, { durable: true });
 
     console.log(
       " [*] Waiting for messages in %s. To exit, press CTRL+C",
@@ -24,7 +25,7 @@ async function receiveMessage() {
         const message = msg.content.toString();
         console.log(" [x] Received %s", message);
       },
-      { noAck: true }
+      { noAck: false }
     );
   } catch (error) {
     console.error("Error occurred:", error);
