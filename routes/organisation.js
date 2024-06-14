@@ -78,6 +78,7 @@ router.post("/login", function (req, res) {
             location: user.location,
             contact: user.contact,
             sector: user.sector,
+            organisation_id: user._id,
           },
         });
       } else {
