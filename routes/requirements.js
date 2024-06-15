@@ -4,7 +4,7 @@ const { Requirements } = require("../models/requirements");
 var router = express.Router();
 
 // To get the list of requirements based on email
-router.get("/email", async (req, res) => {
+router.post("/email", async (req, res) => {
   const { email } = req.body;
   await Requirements.find({ organisation_email: email }).then((response) =>
     res.status(200).json({ success: true, data: response })
