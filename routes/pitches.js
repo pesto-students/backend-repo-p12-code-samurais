@@ -3,7 +3,7 @@ var router = express.Router();
 const { Pitches } = require("../models/pitches");
 
 // route to get the virtul pitch based on email
-router.get("/email", async (req, res) => {
+router.post("/email", async (req, res) => {
   const { company_email } = req.body;
   await Pitches.find({ company_email }).then((response) =>
     res.status(200).json({ success: true, data: response })
