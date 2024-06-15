@@ -12,7 +12,7 @@ router.post("/email", async (req, res) => {
 });
 
 // To get the list of requirements based on sector
-router.get("/sector", async (req, res) => {
+router.post("/sector", async (req, res) => {
   const { req_sector } = req.body;
   await Requirements.find({ req_sector }).then((response) => {
     res.status(200).json({ success: true, data: response });
