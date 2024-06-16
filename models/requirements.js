@@ -28,7 +28,7 @@ const requirementSchema = new Schema(
       type: String,
       required: true,
     },
-    pitches: [{ type: { isPitchAccepted: Boolean } }],
+    pitches: [{ pitch:{}, isAccepted: Boolean }],
   },
   { timestamps: true }
 );
