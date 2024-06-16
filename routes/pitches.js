@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 const { Pitches } = require("../models/pitches");
+const { Requirements } = require("../models/requirements");
 
 // route to get the virtul pitch based on email
 router.post("/email", async (req, res) => {
@@ -32,17 +33,43 @@ router.post("/post", async (req, res) => {
     product_details,
     requirement_id,
     pitch_title,
-  })
-    .then((response) => {
-      res.status(200).json({
-        success: true,
-        message: "Pitch added sucessfully",
-        data: response,
-      });
-    })
-    .catch((error) => {
-      res.status(400).json({ success: false, error: error });
+  });
+  try {
+    // Create the pitch
+    const newPitch = await Pitches.create({
+      company_name,
+      company_email,
+      place,
+      budget_min,
+      budget_max,
+      product_details,
+      requirement_id,
+      pitch_title,
     });
+
+    const pitchObject = newPitch.toObject();
+
+    // Update the corresponding Requirement document
+    await Requirements.findOneAndUpdate(
+      { _id: requirement_id },
+      {
+        $push: {
+          pitches: { pitch: pitchObject, isAccepted: false },
+        },
+      },
+      { new: true }
+    );
+
+    // Respond with success message and data
+    res.status(200).json({
+      success: true,
+      message: "Pitch added successfully",
+      data: newPitch,
+    });
+  } catch (error) {
+    // Handle errors
+    res.status(400).json({ success: false, error: error.message });
+  }
 });
 
 // Route to udpate and delete the virtual pitch
@@ -61,14 +88,5 @@ router.put("/edit", async (req, res) => {
     res.send(response);
   });
 });
-
-// Route to get the requirement by id
-// router.get("/find_req", async (req, res) => {
-//   await Requirements.findById({
-//     _id: "66381b3869735a98cec8cf58",
-//   }).then((response) => {
-//     res.send(response);
-//   });
-// });
 
 module.exports = router;
