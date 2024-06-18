@@ -19,6 +19,14 @@ router.post("/sector", async (req, res) => {
   });
 });
 
+// Get Requirements By ID
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
+  await Requirements.findById(id).then((response) => {
+    res.send(response);
+  });
+});
+
 // To post a requirement
 router.post("/post", async (req, res) => {
   const {
