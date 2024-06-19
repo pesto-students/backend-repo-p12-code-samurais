@@ -35,6 +35,7 @@ router.post("/post", async (req, res) => {
       product_details,
       requirement_id,
       pitch_title,
+      isAccepted: false,
     });
 
     const pitchObject = newPitch.toObject();
@@ -44,7 +45,7 @@ router.post("/post", async (req, res) => {
       { _id: requirement_id },
       {
         $push: {
-          pitches: { pitch: pitchObject, isAccepted: false },
+          pitches: { pitch: pitchObject },
         },
       },
       { new: true }
@@ -77,6 +78,10 @@ router.put("/edit", async (req, res) => {
   ).then((response) => {
     res.send(response);
   });
+});
+
+router.get("/accept", (req, res) => {
+  res.send("Pitch Accepted");
 });
 
 module.exports = router;

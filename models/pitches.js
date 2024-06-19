@@ -30,6 +30,9 @@ const pitchesSchema = new Schema(
       type: String,
       required: true,
     },
+    isAccepted: {
+      type: Boolean,
+    },
     requirement_id: { type: Schema.Types.ObjectId, ref: "Requirement" },
   },
   { timestamps: true }
