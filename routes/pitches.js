@@ -80,8 +80,13 @@ router.put("/edit", async (req, res) => {
   });
 });
 
-router.get("/accept", (req, res) => {
-  res.send("Pitch Accepted");
+router.get("/accept/:pitch_id", (req, res) => {
+  const { pitch_id } = req.params;
+  Pitches.findByIdAndUpdate(pitch_id, { isAccepted: true }, { new: true }).then(
+    (response) => {
+      res.json({ message: "success", pitch: response });
+    }
+  );
 });
 
 module.exports = router;
