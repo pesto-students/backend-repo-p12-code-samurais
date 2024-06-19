@@ -24,16 +24,6 @@ router.post("/post", async (req, res) => {
     pitch_title,
   } = req.body;
 
-  await Pitches.create({
-    company_name,
-    company_email,
-    place,
-    budget_min,
-    budget_max,
-    product_details,
-    requirement_id,
-    pitch_title,
-  });
   try {
     // Create the pitch
     const newPitch = await Pitches.create({
