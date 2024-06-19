@@ -80,13 +80,25 @@ router.put("/edit", async (req, res) => {
   });
 });
 
-router.get("/accept/:pitch_id", (req, res) => {
+router.get("/accept/:pitch_id", async (req, res) => {
   const { pitch_id } = req.params;
-  Pitches.findByIdAndUpdate(pitch_id, { isAccepted: true }, { new: true }).then(
-    (response) => {
-      res.json({ message: "success", pitch: response });
+
+  try {
+    const response = await Pitches.findByIdAndUpdate(
+      pitch_id,
+      { isAccepted: true },
+      { new: true }
+    );
+
+    if (!response) {
+      return res.status(404).json({ message: "Pitch not found" });
     }
-  );
+
+    res.json({ message: "Success", pitch: response });
+  } catch (err) {
+    console.error("Error accepting pitch:", err);
+    res.status(500).json({ message: "Server error" });
+  }
 });
 
 module.exports = router;
