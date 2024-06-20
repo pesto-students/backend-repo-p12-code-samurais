@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 const { Pitches } = require("../models/pitches");
 const { Requirements } = require("../models/requirements");
+const authMiddleware = require("../utils/authMiddleware");
 
 // route to get the virtul pitch based on email
 router.post("/email", async (req, res) => {
@@ -101,4 +102,4 @@ router.get("/accept/:pitch_id", async (req, res) => {
   }
 });
 
-module.exports = router;
+module.exports = authMiddleware(router);

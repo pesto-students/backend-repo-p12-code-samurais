@@ -2,6 +2,7 @@ var express = require("express");
 const Organisation = require("../models/organisation");
 const { Requirements } = require("../models/requirements");
 var router = express.Router();
+const authMiddleware = require("../utils/authMiddleware");
 
 // To get the list of requirements based on email
 router.post("/email", async (req, res) => {
@@ -81,4 +82,4 @@ router.put("/edit", async (req, res) => {
   });
 });
 
-module.exports = router;
+module.exports = authMiddleware(router);
