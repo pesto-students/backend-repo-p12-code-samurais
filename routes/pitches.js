@@ -46,7 +46,7 @@ router.post("/post", async (req, res) => {
       { _id: requirement_id },
       {
         $push: {
-          pitches: { pitch: pitchObject },
+          pitches: pitchObject,
         },
       },
       { new: true }

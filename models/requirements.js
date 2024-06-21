@@ -28,7 +28,7 @@ const requirementSchema = new Schema(
       type: String,
       required: true,
     },
-    pitches: [{ pitch: {} }],
+    pitches: [],
   },
   { timestamps: true }
 );
