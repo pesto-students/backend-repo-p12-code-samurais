@@ -81,9 +81,8 @@ router.put("/edit", async (req, res) => {
   });
 });
 
-router.get("/accept/:pitch_id", async (req, res) => {
-  const { pitch_id } = req.params;
-
+router.get("/accept/:pitch_id/:pitch_company_email", async (req, res) => {
+  const { pitch_company_email, pitch_id } = req.params;
   try {
     const response = await Pitches.findByIdAndUpdate(
       pitch_id,
@@ -91,14 +90,16 @@ router.get("/accept/:pitch_id", async (req, res) => {
       { new: true }
     );
 
-    if (!response) {
-      return res.status(404).json({ message: "Pitch not found" });
-    }
+    const filter = { "pitches.company_email": pitch_company_email };
+    const update = { $set: { "pitches.$.isAccepted": true } };
 
-    res.json({ message: "Success", pitch: response });
+    const updatedRecord = await Requirements.findOneAndUpdate(filter, update, {
+      new: true,
+    });
+
+    res.json({ success: true, message: "Pitch Updated!" });
   } catch (err) {
-    console.error("Error accepting pitch:", err);
-    res.status(500).json({ message: "Server error" });
+    res.json({ success: false, error: err });
   }
 });
 
