@@ -40,6 +40,6 @@ app.use("/forgotPassword", forgotPasswordRouter);
 app.use("/chat", chatRouter);
 
 // Redis Initianalised
-RedisUtil();
+// RedisUtil();
 
 module.exports = app;
