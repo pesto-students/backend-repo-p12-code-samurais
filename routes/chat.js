@@ -1,20 +1,25 @@
-var express = require("express");
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
 const publisher = require("../chatServer/publisher");
 const subscriber = require("../chatServer/subscriber");
-const authMiddleware = require("../utils/authMiddleware");
 
-// Route to get the messages from a queue
-router.get("/", async (req, res) => {
-  subscriber("ayush@gmail.com", "dency@gmail.com");
-  res.send("Messages Recieved");
+// In-memory storage for messages (for demo purposes, should use database in production)
+let messages = [];
+
+// Route to get all messages
+router.get("/", (req, res) => {
+  res.json(messages);
 });
 
-// Route
+// Route to send a message
 router.post("/send_message", async (req, res) => {
   const { sender_email, receiver_email, message } = req.body;
-  await publisher(sender_email, receiver_email, message);
+  await publisher(sender_email, receiver_email, message); // Publish message to RabbitMQ
+  messages.push({ sender: sender_email, message: message }); // Update messages array (demo only)
   res.send("Message Sent");
 });
 
-module.exports = authMiddleware(router);
+// Initialize subscriber for receiving messages (optional, depends on your architecture)
+subscriber("ayush@gmail.com", "dency@gmail.com");
+
+module.exports = router;
