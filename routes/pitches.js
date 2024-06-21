@@ -41,14 +41,12 @@ router.post("/post", async (req, res) => {
 
     const pitchObject = newPitch.toObject();
 
-    console.log(pitchObject);
-
     // Update the corresponding Requirement document
     await Requirements.findOneAndUpdate(
       { _id: requirement_id },
       {
         $push: {
-          pitches: pitchObject._id,
+          pitches: { pitch: pitchObject },
         },
       },
       { new: true }
@@ -81,18 +79,6 @@ router.put("/edit", async (req, res) => {
   ).then((response) => {
     res.send(response);
   });
-});
-
-//Finding Pitch using pitch ID
-router.get("/:id", async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const response = await Pitches.findById(id);
-    res.status(200).json({ success: true, data: response });
-  } catch (error) {
-    res.status(400).json({ success: false, error: error.message });
-  }
 });
 
 router.get("/accept/:pitch_id", async (req, res) => {
